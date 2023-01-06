@@ -6,6 +6,10 @@ on:
     - "v*.*.*"
   workflow_dispatch:
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  
 jobs:
   build:
     uses: ./.github/workflows/build.yml
