@@ -22,6 +22,6 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           image: golang
-          options: -v ${{ github.workspace }}:/work
+          options: -v ${{ github.workspace }}:/work -w /work
           run: |
             make
