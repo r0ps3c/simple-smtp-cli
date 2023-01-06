@@ -9,7 +9,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  
+
 jobs:
   build:
     uses: ./.github/workflows/build.yml
@@ -39,6 +39,9 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          
+      - name: Debug downloads
+        run: pwd; ls -R
 
       - name: Build and push Docker image
         id: build-and-push
