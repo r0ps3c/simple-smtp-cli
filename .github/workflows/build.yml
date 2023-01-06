@@ -6,15 +6,9 @@ on:
       - "!v*.*.*"
   pull_request:
   workflow_dispatch:
-  workflow_call:
-    outputs:
-      aname:
-        value: ${{jobs.build.outputs.aname}}
 
 jobs:
   build:
-    outputs:
-      aname: ${{ steps.aname.outputs.artifactname }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -22,19 +16,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - id: build
-        uses: addnab/docker-run-action@v3
-        with:
-          image: golang
-          options: -v ${{ github.workspace }}:/work -w /work
-          run: |
-            make
-      - id: upload
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{github.sha}}
-          path: ${{github.workspace}}/simple-smtp-cli
-          if-no-files-found: error
-      - id: aname
-        run: echo "artifactname=${{github.sha}}" >> ${GITHUB_OUTPUT}
+      
+      - name: Build and push Docker image
+        id: build
+        uses: docker/build-push-action@v3
 
