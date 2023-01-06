@@ -5,7 +5,7 @@ on:
   pull_request:
   workflow_dispatch:
   workflow_call:
-  outputs:
+    outputs:
       aname:
         value: ${{jobs.build.outputs.aname}}
 
