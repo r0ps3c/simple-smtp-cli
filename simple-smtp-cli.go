@@ -9,13 +9,10 @@ import (
 	"github.com/emersion/go-smtp"
 )
 
-var Usage = func() {
-	fmt.Fprintf(os.Stderr, "Usage: %s [OPTIONS] <recipient> [.. <recipient>]:\n", os.Args[0])
-	flag.PrintDefaults()
-}
-
-
+// text/transformer that converts LF in input to CRLF in output
 type ToCRLF struct{}
+
+func (ToCRLF) Reset() {}
 
 func (ToCRLF) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
 	for nDst < len(dst) && nSrc < len(src) {
@@ -39,7 +36,10 @@ func (ToCRLF) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error)
 	return
 }
 
-func (ToCRLF) Reset() {}
+var Usage = func() {
+	fmt.Fprintf(os.Stderr, "Usage: %s [OPTIONS] <recipient> [.. <recipient>]:\n", os.Args[0])
+	flag.PrintDefaults()
+}
 
 func main() {
 	// set up and process commandline args
